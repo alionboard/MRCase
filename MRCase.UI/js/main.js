@@ -207,7 +207,7 @@ function loadData() {
 function listData(data, paginationValues) {
     const paginationObj = JSON.parse(paginationValues);
     pageNumber = paginationObj.CurrentPage;
-
+    $("#main-table-body").empty();
 
     $.each(data, function (key, value) {
         $("#main-table-body").append('<tr class="clickable-row">' +
@@ -236,7 +236,6 @@ function listData(data, paginationValues) {
 
 //Next Data
 function nextData() {
-    $("#main-table-body").empty();
     pageNumber++;
     loadData();
 
@@ -244,7 +243,6 @@ function nextData() {
 
 //Previous Data
 function prevData() {
-    $("#main-table-body").empty();
     pageNumber--;
     loadData();
 }
