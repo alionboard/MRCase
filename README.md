@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="MRCase.UI/img/appicon.png" style="max-width:100%;" height="150"  />
+</p>
+
 # Mobiroller Case
 This Project features users to import their specific json data(important events) and view them after logging in to application.  
   
@@ -23,15 +27,15 @@ Authentication, Localization, Exception Handler, In-Memory Cache, AutoMapper, Mu
 ### How To Use?
 After Clone/Download project, execute command `EntityFrameworkCore\Update-Database` in Package Manager Console 
 <hr>
-
-#### Register/Login
+<br>
+<p align="center"><b>Register/Login</b></p>
 <img src='images/login.png' width='100%'>  
 <hr>
-
-#### Import Data by your Language. Other languages will not be imported. After import you can change pages to see all data. 
+<br>
+<p align="center"><b>Import Data by your Language. Other languages will not be imported. After import you can change pages to see all data.</b></p>
  <img src='images/index.png' width='100%'>  
 <hr>
-
-#### That's all. OpenApi Documentation
+<br>
+<p align="center"><b>That's all. OpenApi Documentation</b></p>
 <img src='images/swagger.png' width='100%'>  
 
