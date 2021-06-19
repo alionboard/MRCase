@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using MRCase.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace MRCase.Core.Authorization
 {
     public class ApplicationUser : IdentityUser
     {
-        public string FullName { get; set; }
+        public ICollection<Datum> Data { get; set; }
     }
 }

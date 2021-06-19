@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MRCase.Core.Authorization;
+using MRCase.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,8 @@ namespace MRCase.EntityFrameworkCore
         {
 
         }
+
+        public DbSet<Datum> Data { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

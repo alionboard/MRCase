@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using MRCase.Application.Authorization.Dtos;
 using MRCase.Core.Authorization;
+using MRCase.Core.Localization;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,15 +23,19 @@ namespace MRCase.API.Controllers
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IConfiguration configuration;
+        private readonly IStringLocalizer<Resource> localizer;
 
-        public AuthorizeController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+
+        public AuthorizeController(UserManager<ApplicationUser> userManager, IConfiguration configuration, IStringLocalizer<Resource> localizer)
         {
             this.userManager = userManager;
             this.configuration = configuration;
+            this.localizer = localizer;
         }
 
+        //Login User
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        public async Task<IActionResult> Login([FromForm] LoginDto loginDto)
         {
             var user = await userManager.FindByNameAsync(loginDto.Username);
             if (user != null && await userManager.CheckPasswordAsync(user, loginDto.Password))
@@ -38,6 +44,7 @@ namespace MRCase.API.Controllers
 
                 var authClaims = new List<Claim>
                 {
+                    new Claim(JwtRegisteredClaimNames.Sub,user.Id),
                     new Claim(ClaimTypes.Name,user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti,Guid.NewGuid().ToString())
                 };
@@ -51,43 +58,73 @@ namespace MRCase.API.Controllers
                 var token = new JwtSecurityToken(
                     issuer: configuration["JWT:ValidIssuer"],
                     audience: configuration["JWT:ValidAudience"],
-                    expires: DateTime.Now.AddHours(72),
+                    expires: DateTime.Now.AddDays(7),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                     );
 
-                return Ok(new
+                return Ok(new 
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo
                 });
             }
-            return Unauthorized();
+            throw new UnauthorizedAccessException(localizer["LoginError"].Value);
         }
 
+        //Register User
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        public async Task<IActionResult> Register([FromForm] RegisterDto registerDto)
         {
             var userExists = await userManager.FindByNameAsync(registerDto.Username);
             if (userExists != null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Username exists!");
+                throw new Exception(localizer["UsernameExists"].Value);
             }
 
             ApplicationUser user = new ApplicationUser()
             {
                 UserName = registerDto.Username,
-                FullName = registerDto.FullName,
                 SecurityStamp = Guid.NewGuid().ToString()
             };
 
             var result = await userManager.CreateAsync(user, registerDto.Password);
             if (!result.Succeeded)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "User creation failed! Please check user details and try again.");
+                throw new Exception(localizer["UserCreationFailed"].Value);
+
             }
 
-            return Ok("User created successfully!");
+            return Ok(localizer["Created"].Value);
+        }
+
+        //Verifying Tokens
+        [HttpGet("verifyToken")]
+        public async Task<IActionResult> VerifyToken([FromHeader]string authorization)
+        {
+            var token = authorization.Split(" ").Last();
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(configuration["JWT:Secret"]);
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                }, out SecurityToken validatedToken);
+
+                var jwtToken = (JwtSecurityToken)validatedToken;
+
+                var username = jwtToken.Claims.First(x => x.Type.EndsWith("/name")).Value;
+                return Ok(new { username = username, message = localizer["SuccessfulLogin"].Value });
+            }
+            catch
+            {
+                throw new ArgumentException(localizer["VerifyTokenFailed"].Value);
+            }
+
         }
     }
 }

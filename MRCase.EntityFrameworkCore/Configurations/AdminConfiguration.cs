@@ -20,7 +20,6 @@ namespace MRCase.EntityFrameworkCore.Configurations
                 Id = adminId,
                 UserName = "admin",
                 NormalizedUserName = "ADMIN",
-                FullName = "admin",
                 Email = "admin@example.com",
                 NormalizedEmail = "ADMIN@EXAMPLE.COM",
                 EmailConfirmed = true,
