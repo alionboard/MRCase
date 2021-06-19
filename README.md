@@ -16,6 +16,32 @@ This Project features users to import their specific json data(important events)
 - Turkish
 - Italian
 
+### Data Format
+#### Turkish Example
+```json
+[
+    {
+        "ID":1,
+        "dc_Zaman":"1 Ocak",
+        "dc_Kategori":"Olay",
+        "dc_Olay":"MÖ 45 - Jülyen takvimi ilk kez kullanılmaya başlandı. 
+            16. yüzyıla kadar kullanıldıktan sonra yerini Gregoryen takvime bırakacaktır."
+    }
+]
+```
+
+#### Italian Example
+```json
+[
+    {
+        "ID":1,
+        "dc_Orario":"1º gennaio",
+        "dc_Categoria":"Eventi",
+        "dc_Evento":"4713 a.C. – L'astronomo Joseph Justus Scaliger considera questo giorno 
+            come il giorno giuliano zero."
+    }
+]
+```  
 ### Used Technologies
 <b>Backend:</b> ASP.NET Core 3.1, EF Core, MsSQL<br>
 <b>Frontend:</b> HTML, CSS, Javascript, JQuery, Bootstrap 4
