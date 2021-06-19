@@ -26,11 +26,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{C1866E6E-B87
 		style.css = style.css
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{9399B707-EC4B-4C8F-93F0-466803EF2042}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\Pictures\Mobiroller\swagger.png = ..\..\..\Pictures\Mobiroller\swagger.png
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
