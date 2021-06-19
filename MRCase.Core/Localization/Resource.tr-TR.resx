@@ -153,6 +153,9 @@
   <data name="Ok" xml:space="preserve">
     <value>Tamam</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>Parola</value>
+  </data>
   <data name="Prev" xml:space="preserve">
     <value>Önceki</value>
   </data>
@@ -173,6 +176,9 @@
   </data>
   <data name="UserCreationFailed" xml:space="preserve">
     <value>Hata! Bilgilerinizi kontrol edip tekrar deneyin.</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Kullanıcı Adı</value>
   </data>
   <data name="UsernameExists" xml:space="preserve">
     <value>Kullanıcı Adı Kayıtlı</value>

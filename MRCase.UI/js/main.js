@@ -304,6 +304,8 @@ function localizeUI(data) {
     var dateText = data.filter(obj => { return obj.key === 'Date' });
     var categoryText = data.filter(obj => { return obj.key === 'Category' });
     var eventText = data.filter(obj => { return obj.key === 'Event' });
+    var usernameText = data.filter(obj => { return obj.key === 'Username' });
+    var passwordText = data.filter(obj => { return obj.key === 'Password' });
     $("#registerText").text(registerText[0].value);
     $("#loginText").text(loginText[0].value);
     $("#registerBtnText").text(registerText[0].value);
@@ -317,7 +319,10 @@ function localizeUI(data) {
     $("#dateText").text(dateText[0].value);
     $("#categoryText").text(categoryText[0].value);
     $("#eventText").text(eventText[0].value);
-    console.log(dateText[0].value);
+    $("#loginUsername").attr('placeholder', usernameText[0].value);
+    $("#loginPassword").attr('placeholder', passwordText[0].value);
+    $("#registerUsername").attr('placeholder', usernameText[0].value);
+    $("#registerPassword").attr('placeholder', passwordText[0].value);
 }
 
 //Localization Header
