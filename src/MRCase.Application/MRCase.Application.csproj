@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MRCase.Core\MRCase.Core.csproj" />
     <ProjectReference Include="..\MRCase.EntityFrameworkCore\MRCase.EntityFrameworkCore.csproj" />
   </ItemGroup>
 
