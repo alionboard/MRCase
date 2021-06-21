@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="MRCase.UI/img/appicon.png" style="max-width:100%;" height="150"  />
+    <img src="src/MRCase.UI/img/appicon.png" style="max-width:100%;" height="150"  />
 </p>
 
 # Mobiroller Case
