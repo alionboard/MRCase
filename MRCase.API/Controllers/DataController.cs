@@ -48,7 +48,7 @@ namespace MRCase.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DatumResponseDto>>> Get([FromQuery] PagingParameters pagingParameters)
         {
-            var data = await dataService.Get(pagingParameters, UserId);
+            var data = await dataService.GetAsync(pagingParameters, UserId);
 
             var metadata = new
             {
@@ -112,6 +112,21 @@ namespace MRCase.API.Controllers
             {
                 throw new ArgumentException(localizer["NotValidLangFile"].Value);
             }
+
+            throw new Exception(localizer["Error"].Value);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete()
+        {
+            var userData = await dataService.GetAllAsync(UserId);
+            if (userData == null)
+                throw new FileNotFoundException(localizer["NotFoundData"].Value);
+
+            dataService.Delete(userData);
+
+            if (await dataService.SaveChangesAsync())
+                return Ok(localizer["Deleted"].Value);
 
             throw new Exception(localizer["Error"].Value);
         }

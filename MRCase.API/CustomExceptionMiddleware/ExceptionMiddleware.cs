@@ -2,6 +2,7 @@
 using MRCase.Application.Extensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -39,6 +40,9 @@ namespace MRCase.API.CustomExceptionMiddleware
                     break;
                 case UnauthorizedAccessException e:
                     context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    break;
+                case FileNotFoundException e:
+                    context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                     break;
                 default:
                     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

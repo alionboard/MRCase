@@ -21,10 +21,15 @@ namespace MRCase.Application.Data
             this.context = context;
         }
 
-        public async Task<PagedList<Datum>> Get(PagingParameters pagingParameters, string userId)
+        public async Task<PagedList<Datum>> GetAsync(PagingParameters pagingParameters, string userId)
         {
             var query = context.Data.Where(x => x.UserId == userId);
             return await Task.FromResult(PagedList<Datum>.ToPagedList(query, pagingParameters.PageNumber, pagingParameters.PageSize));
+        }
+
+        public async Task<IQueryable<Datum>> GetAllAsync(string userId)
+        {
+            return await Task.FromResult(context.Data.Where(x => x.UserId == userId));
         }
 
         public void ImportData(Datum[] data, string userId)
@@ -35,9 +40,15 @@ namespace MRCase.Application.Data
             context.AddRange(data);
         }
 
+        public void Delete(IQueryable<Datum> data)
+        {
+            context.RemoveRange(data);
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             return (await context.SaveChangesAsync()) > 0;
         }
+
     }
 }

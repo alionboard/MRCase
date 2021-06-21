@@ -129,6 +129,9 @@
   <data name="Date" xml:space="preserve">
     <value>Orario</value>
   </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Cancellato</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>C'è un problema</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="Next" xml:space="preserve">
     <value>Prossimo</value>
+  </data>
+  <data name="NotFoundData" xml:space="preserve">
+    <value>Nessun dato trovato</value>
   </data>
   <data name="NotValidFile" xml:space="preserve">
     <value>File non valido!</value>

@@ -38,7 +38,7 @@ namespace MRCase.API.Controllers
                 const string cacheKey = "languageListIT";
 
                 //Checking In-Memory cache for existing data
-                var response = CheckCache(cacheKey);
+                var response = GetCacheData(cacheKey);
                 return Ok(response);
             }
             else
@@ -46,14 +46,14 @@ namespace MRCase.API.Controllers
                 const string cacheKey = "languageListTR";
 
                 //Checking In-Memory cache for existing data
-                var response = CheckCache(cacheKey);                
+                var response = GetCacheData(cacheKey);                
                 return Ok(response);
             }
             
         }
 
         //In-Memory Cache
-        private List<LangPair> CheckCache(string cacheKey)
+        private List<LangPair> GetCacheData(string cacheKey)
         {
             if (!memoryCache.TryGetValue(cacheKey, out List<LangPair> response))
             {
@@ -62,7 +62,7 @@ namespace MRCase.API.Controllers
                 var cacheExpirationOptions =
                     new MemoryCacheEntryOptions
                     {
-                        AbsoluteExpiration = DateTime.Now.AddHours(3),
+                        AbsoluteExpiration = DateTime.Now.AddMilliseconds(10),
                         Priority = CacheItemPriority.Normal
                     };
                 memoryCache.Set(cacheKey, response, cacheExpirationOptions);

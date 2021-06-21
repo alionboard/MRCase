@@ -129,6 +129,9 @@
   <data name="Date" xml:space="preserve">
     <value>Tarih</value>
   </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Silindi</value>
+  </data>
   <data name="Error" xml:space="preserve">
     <value>Bir sorun oluştu</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="Next" xml:space="preserve">
     <value>Sonraki</value>
+  </data>
+  <data name="NotFoundData" xml:space="preserve">
+    <value>Veri Bulunamadı</value>
   </data>
   <data name="NotValidFile" xml:space="preserve">
     <value>Dosya Hatalı!</value>
