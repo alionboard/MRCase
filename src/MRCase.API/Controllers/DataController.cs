@@ -15,6 +15,7 @@ using MRCase.Core.Localization;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -48,7 +49,7 @@ namespace MRCase.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DatumResponseDto>>> Get([FromQuery] PagingParameters pagingParameters)
         {
-            var data = await dataService.GetAsync(pagingParameters, UserId);
+            var data = await dataService.GetPagedDataAsync(pagingParameters, UserId);
 
             var metadata = new
             {
@@ -72,12 +73,20 @@ namespace MRCase.API.Controllers
             CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
 
             //Reading Json File
+
             //https://stackoverflow.com/questions/40045147/how-to-read-into-memory-the-lines-of-a-text-file-from-an-iformfile-in-asp-net-co/40045456
-            var result = new StringBuilder();
+            //var result = new StringBuilder();
+
+            //using (var reader = new StreamReader(formFile.OpenReadStream()))
+            //{
+            //    while (reader.Peek() >= 0)
+            //        result.AppendLine(reader.ReadLine());
+            //}
+
+            string result;
             using (var reader = new StreamReader(formFile.OpenReadStream()))
             {
-                while (reader.Peek() >= 0)
-                    result.AppendLine(reader.ReadLine());
+                result = await reader.ReadToEndAsync();
             }
 
             if (cultureInfo.Name == "it-IT")
@@ -116,19 +125,38 @@ namespace MRCase.API.Controllers
             throw new Exception(localizer["Error"].Value);
         }
 
+        //Delete all
         [HttpDelete]
-        public async Task<IActionResult> Delete()
+        public async Task<IActionResult> DeleteAllData()
         {
             var userData = await dataService.GetAllAsync(UserId);
-            if (userData == null)
+            if (!userData.Any())
                 throw new FileNotFoundException(localizer["NotFoundData"].Value);
 
-            dataService.Delete(userData);
+            dataService.DeleteAll(userData);
 
             if (await dataService.SaveChangesAsync())
                 return Ok(localizer["Deleted"].Value);
 
             throw new Exception(localizer["Error"].Value);
+        }
+
+        //Delete by id
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var data = dataService.GetByIdAsync(id);
+            if (data == null)
+                throw new FileNotFoundException(localizer["NotFoundData"].Value);
+
+            dataService.DeleteOne(data);
+            if (await dataService.SaveChangesAsync())
+            {
+                return Ok(localizer["Deleted"].Value);
+            }
+
+            throw new Exception(localizer["Error"].Value);
+
         }
     }
 }

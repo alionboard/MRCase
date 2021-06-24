@@ -11,10 +11,12 @@ namespace MRCase.Application.Data
 {
     public interface IDataService
     {
-        Task<PagedList<Datum>> GetAsync(PagingParameters pagingParameters, string userId);
+        Task<PagedList<Datum>> GetPagedDataAsync(PagingParameters pagingParameters, string userId);
+        Datum GetByIdAsync(int id);
         Task<IQueryable<Datum>> GetAllAsync(string userId);
         void ImportData(Datum[] data, string userId);
-        void Delete(IQueryable<Datum> data);
+        void DeleteAll(IQueryable<Datum> data);
+        void DeleteOne(Datum data);
         Task<bool> SaveChangesAsync();
 
     }
