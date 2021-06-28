@@ -32,7 +32,7 @@ namespace MRCase.Application.Data
             return await Task.FromResult(PagedList<Datum>.ToPagedList(query, pagingParameters.PageNumber, pagingParameters.PageSize));
         }
 
-        public async Task<IQueryable<Datum>> GetAllAsync(string userId)
+        public async Task<IEnumerable<Datum>> GetAllAsync(string userId)
         {
             return await Task.FromResult(context.Data.Where(x => x.UserId == userId));
         }
@@ -45,7 +45,7 @@ namespace MRCase.Application.Data
             context.AddRange(data);
         }
 
-        public void DeleteAll(IQueryable<Datum> data)
+        public void DeleteAll(IEnumerable<Datum> data)
         {
             context.RemoveRange(data);
         }

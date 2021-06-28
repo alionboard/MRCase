@@ -13,9 +13,9 @@ namespace MRCase.Application.Data
     {
         Task<PagedList<Datum>> GetPagedDataAsync(PagingParameters pagingParameters, string userId);
         Datum GetByIdAsync(int id);
-        Task<IQueryable<Datum>> GetAllAsync(string userId);
+        Task<IEnumerable<Datum>> GetAllAsync(string userId);
         void ImportData(Datum[] data, string userId);
-        void DeleteAll(IQueryable<Datum> data);
+        void DeleteAll(IEnumerable<Datum> data);
         void DeleteOne(Datum data);
         Task<bool> SaveChangesAsync();
 
