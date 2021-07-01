@@ -135,7 +135,7 @@ namespace MRCase.API
             //Cors
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("X-Pagination"));
 
-            //AUthentication
+            //Authentication
             app.UseAuthentication();
             app.UseAuthorization();
 

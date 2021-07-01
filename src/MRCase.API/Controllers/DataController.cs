@@ -8,6 +8,7 @@ using Microsoft.Extensions.Localization;
 using MRCase.API.ActionFilters;
 using MRCase.Application.Data;
 using MRCase.Application.Data.Dtos;
+using MRCase.Application.Extensions;
 using MRCase.Application.Pagination;
 using MRCase.Core.Authorization;
 using MRCase.Core.Data;
@@ -47,6 +48,8 @@ namespace MRCase.API.Controllers
 
         //Get User Data
         [HttpGet]
+        [ProducesResponseType(typeof(DatumResponseDto), 200)]
+        [ProducesErrorResponseType(typeof(ResponseDetails))]
         public async Task<ActionResult<IEnumerable<DatumResponseDto>>> Get([FromQuery] PagingParameters pagingParameters)
         {
             var data = await dataService.GetPagedDataAsync(pagingParameters, UserId);
@@ -67,6 +70,7 @@ namespace MRCase.API.Controllers
 
         //Import Json File
         [HttpPost]
+        [ProducesResponseType(typeof(OkResponse), 200)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> Post([FromForm] IFormFile formFile)
         {
@@ -100,7 +104,7 @@ namespace MRCase.API.Controllers
                 dataService.ImportData(mapper.Map<Datum[]>(data), UserId);
 
                 if (await dataService.SaveChangesAsync())
-                    return Ok(localizer["Created"].Value);
+                    return Ok(new OkResponse { Message = localizer["Created"].Value });
             }
 
             else if (cultureInfo.Name == "tr-TR")
@@ -114,7 +118,8 @@ namespace MRCase.API.Controllers
                 dataService.ImportData(mapper.Map<Datum[]>(data), UserId);
 
                 if (await dataService.SaveChangesAsync())
-                    return Ok(localizer["Created"].Value);
+                    return Ok(new OkResponse { Message = localizer["Created"].Value });
+
             }
 
             else
@@ -127,6 +132,8 @@ namespace MRCase.API.Controllers
 
         //Delete all
         [HttpDelete]
+        [ProducesResponseType(typeof(OkResponse), 200)]
+        [ProducesErrorResponseType(typeof(ResponseDetails))]
         public async Task<IActionResult> DeleteAllData()
         {
             var userData = await dataService.GetAllAsync(UserId);
@@ -136,13 +143,15 @@ namespace MRCase.API.Controllers
             dataService.DeleteAll(userData);
 
             if (await dataService.SaveChangesAsync())
-                return Ok(localizer["Deleted"].Value);
+                return Ok(new OkResponse { Message = localizer["Deleted"].Value });
 
             throw new Exception(localizer["Error"].Value);
         }
 
         //Delete by id
         [HttpDelete("{id}")]
+        [ProducesResponseType(typeof(OkResponse), 200)]
+        [ProducesErrorResponseType(typeof(ResponseDetails))]
         public async Task<IActionResult> Delete(int id)
         {
             var data = dataService.GetByIdAsync(id);
@@ -152,7 +161,7 @@ namespace MRCase.API.Controllers
             dataService.DeleteOne(data);
             if (await dataService.SaveChangesAsync())
             {
-                return Ok(localizer["Deleted"].Value);
+                return Ok(new OkResponse { Message = localizer["Deleted"].Value });
             }
 
             throw new Exception(localizer["Error"].Value);
